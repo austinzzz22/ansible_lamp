@@ -1,0 +1,10 @@
+---
+# tasks file for mount
+- name: yum install nfs-utils
+  yum: name=nfs-utils state=present
+- name: mount the nfs file to apache server
+  mount:
+    src: 192.168.60.60:/webdata/wordpress 
+    path: /var/www/html
+    fstype: nfs
+    state: mounted

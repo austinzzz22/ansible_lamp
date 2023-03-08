@@ -1,0 +1,5 @@
+- name: configure nginx lb server
+  hosts: nginx
+  
+  roles:
+  - nginx_lb

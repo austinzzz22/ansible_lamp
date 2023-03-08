@@ -1,0 +1,5 @@
+- name: prepare apache and php
+  hosts: apache
+
+  roles:
+  - apache

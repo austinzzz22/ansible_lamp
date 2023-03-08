@@ -1,0 +1,26 @@
+---
+# tasks file for nfs
+- name: install nfs-utils
+  yum: 
+    name: nfs-utils
+    state: present
+
+- name: create the webdata directory
+  file:
+    path: /webdata
+    state: directory
+
+- name: copy the nfs configuration to the nfs server
+  template:
+    src: /etc/ansible/roles/nfs/templates/exports.j2
+    dest: /etc/exports
+
+- name: extract the web code to webdata
+  unarchive:
+    src: /etc/ansible/roles/nfs/files/latest-zh_CN.tar.gz
+    dest: /webdata
+
+- name: restart the nfs service
+  service:
+    name: nfs-server
+    state: restarted

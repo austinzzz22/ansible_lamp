@@ -1,0 +1,10 @@
+---
+# tasks file for nginx_lb
+- name: congigure nginx lb conf file
+  template: 
+    src: /etc/ansible/roles/nginx_lb/templates/lb.conf.j2
+    dest: /etc/nginx/conf.d/lb.conf
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted

@@ -1,0 +1,58 @@
+- name: config host file
+  hosts: all_ip
+  remote_user: root
+  tasks:
+  - name: copy host.j2 to group servers
+    template:
+      src: /root/template/hosts.j2
+      dest: /etc/hosts
+- name: disable all the firewalld
+  hosts: all_ip
+  remote_user: root
+  tasks:
+  - name: disable all the firewalld
+    service:
+      name: firewalld
+      state: stopped
+
+- name: update yum.repo file
+  hosts: all_hostname
+  remote_user: root
+  tasks:
+  - include_tasks: /etc/ansible/roles/aliyum/tasks/main.yml
+
+- name: install nginx
+  hosts: nginx
+  remote_user: root
+  tasks:
+  - include_tasks: /etc/ansible/roles/nginx/tasks/main.yml
+
+- name: install apache
+  hosts: apache
+  remote_user: root
+  tasks:
+  - include_tasks: /etc/ansible/roles/apache/tasks/main.yml
+
+- name: install mariadb
+  hosts: mariadb
+  remote_user: root
+  tasks:
+  - include_tasks: /etc/ansible/roles/mariadb/tasks/main.yml
+
+- name: config the nginx load balance role
+  hosts: nginx
+  remote_user: root
+  tasks: 
+  - include_tasks: /etc/ansible/roles/nginx_lb/tasks/main.yml
+
+- name: config the nfs role
+  hosts: nfs
+  remote_user: root
+  tasks:
+  - include_tasks: /etc/ansible/roles/nfs/tasks/main.yml
+
+- name: mount apache roles directories
+  hosts: apache
+  remote_user: root
+  tasks: 
+  - include_tasks: /etc/ansible/roles/mount/tasks/main.yml

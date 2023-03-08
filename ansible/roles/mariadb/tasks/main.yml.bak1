@@ -1,0 +1,29 @@
+---
+# tasks file for mariadb
+- name: yum install mariadb
+  yum: 
+    name: mariadb-server
+
+- name: start mariadb
+  service: 
+    name: mariadb
+    state: restarted
+    enabled: true
+
+- name: set password for root
+  command: mysqladmin password '123456'
+
+
+- name: create database
+  command: mysql -uroot -p123456 -e "create database lamp;"
+
+- name: grant privileges for user
+  mysql_user:
+    login_host: "localhost"
+    login_user: "root"
+    login_password: "123456"
+    name: "lamp"
+    password: "123456"
+    host: "192.168.60.%"
+    priv: "lamp.*:SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER"
+    state: "present"

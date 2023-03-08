@@ -1,0 +1,5 @@
+- name: update all nodes yum.repo file
+  hosts: all_hostname
+
+  roles:
+  - aliyum

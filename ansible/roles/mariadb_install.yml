@@ -1,0 +1,5 @@
+- name: install and disposition the mariadb role
+  hosts: mariadb
+
+  roles:
+  - mariadb

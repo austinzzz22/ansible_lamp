@@ -1,0 +1,5 @@
+- name: mount the nfs files
+  hosts: apache
+
+  roles:
+  - mount

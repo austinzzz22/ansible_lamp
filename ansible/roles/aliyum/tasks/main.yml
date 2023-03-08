@@ -1,0 +1,19 @@
+---
+# tasks file for aliyum
+- name: find files in yum.repo.d
+  find:
+    paths: /etc/yum.repo.d/
+    patterns: '*'
+  register: files_to_delete
+
+- name: remove original yum.repos.d/*
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+
+- name: copy aliyun yum.repo to all nodes
+  copy: 
+    src: /etc/ansible/roles/aliyum/files/yum.repo
+    dest: /etc/yum.repo.d/
+ 
